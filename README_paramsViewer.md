@@ -61,13 +61,13 @@ Utilisation de couches (layers) de type "SQL View" et de requêtes paramétrées
 Préciser le nom du paramètre et au besoin une valeur par défaut entre crochets après le nom de la couche dans l'URL.
 Exemple: `layers=MonNameSpace:MonLayerName[param:defaultValue]`
 
-La valeur par defaut peut être omise pour ne pas appliquer de valeur au paramètre. Dans ce cas, c'est la valeur par defaut définie dans Geoserver qui est utilisée.
+La valeur par defaut peut être omise pour ne pas appliquer de valeur au paramètre. Dans ce cas, c'est la valeur par defaut définie dans Geoserver qui est utilisée.  
 Exemple: `layers=MonNameSpace:MonLayerName[param:]`
 
-Plusieurs paramètres peuvent être précisés, sur différentes couches.
+Plusieurs paramètres peuvent être précisés, sur différentes couches.  
 Exemple: `layers=MonNameSpace:MonLayerName[param1:defaultValue1;param2:],MonNameSpace:MonLayerName2[param3:]`
 
-L'application génère automatiquement, dans la boîte de dialogue de recherche (icone "loupe"), un champ de saisie pour chaque paramètre.
+L'application génère automatiquement, dans la boîte de dialogue de recherche (icone "loupe"), un champ de saisie pour chaque paramètre.  
 Il suffit alors de saisir la valeur souhaitée pour un paramètre et de valider.
 
-**A noter:** si une couche de fonds n’est pas opérationnelle, cela bloque le bon fonctionnement de la mise à jour des paramètres. 
+**A noter:** si une couche de fonds n’est pas opérationnelle, cela bloque le bon fonctionnement de la mise à jour des paramètres.
