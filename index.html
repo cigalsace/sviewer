@@ -19,6 +19,7 @@
     -->
     <link rel="stylesheet" href="build/ol.css" type="text/css" />
     <script src="build/ol.js" type="text/javascript"></script>
+    <!-- <script src="build/ol-debug.js" type="text/javascript"></script> -->
     <!-- jquery mobile -->
     <script type="text/javascript">
 //<![CDATA[
@@ -37,6 +38,7 @@ $(document).bind("mobileinit", function(){
     <script src="lib/jquery/jquery.mobile-1.4.2.min.js" type="text/javascript"></script>
     <!-- local -->
     <link rel="stylesheet" href="css/sviewer.css" type="text/css" />
+    <link rel="stylesheet" href="css/paramViewer.css" type="text/css" />
     <script src="js/sviewer.js" type="text/javascript"></script>
     <script src="etc/i18n.js" type="text/javascript"></script>
   </head>
@@ -58,7 +60,7 @@ $(document).bind("mobileinit", function(){
           <a id="bgBt" href="#" accesskey="b" class="i18n ui-btn ui-icon-layer-c ui-btn-icon-notext ui-btn-b" title="background">background</a>
         </div>
 
-        <div id="panelcontrols" class="sv-map-panels" data-role="controlgroup" data-type="horizontal" class="ui-btn-right" data-theme="b">
+        <div id="panelcontrols" class="sv-map-panels ui-btn-right" data-role="controlgroup" data-type="horizontal" data-theme="b">
           <a href="#panelShare" accesskey="m" id="panelShareBtn" class="i18n ui-btn ui-icon-edit ui-btn-icon-right" data-rel="popup" data-position-to="window" title="Map">&nbsp;</a>
           <a href="#panelInfo" accesskey="i" id="panelInfoBtn" class="i18n ui-btn ui-icon-bullets ui-btn-icon-notext" data-rel="popup" data-position-to="window" title="Legend">Legend</a>
           <a href="#panelQuery" accesskey="q" id="panelQueryBtn" class="i18n ui-btn ui-icon-info ui-btn-icon-notext" data-rel="popup" data-position-to="window" title="Query">Query</a>
@@ -88,11 +90,12 @@ $(document).bind("mobileinit", function(){
       <!-- locate panel -->
       <div id="panelLocate" class="sv-panel" data-role="popup">
         <div data-role="header">
-          <h3 class="i18n">Locate</h3>
+          <h3 class="i18n">Search</h3>
           <a href="#" data-rel="back" class="i18n ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all ui-btn-right" title="Close">Close</a>
         </div>
         <div data-role="content">
           <form id="addressForm" method="post" action="#">
+            <h4 class="i18n">Locate</h4>
             <label for="searchInput" class="i18n">Address and/or city</label>
             <div data-role="controlgroup" data-type="horizontal" class="ui-mini">
                 <input type="text"
@@ -100,11 +103,30 @@ $(document).bind("mobileinit", function(){
                     id="searchInput"
                     data-wrapper-class="controlgroup-textinput ui-btn ui-mini"
                     value=""
-                    title="Address and/or city" /><button class="i18n ui-btn ui-icon-search ui-btn-icon-notext " title="Locate">Locate</button>
+                    title="Address and/or city" /><button class="i18n ui-btn ui-icon-search ui-btn-icon-notext " title="Search">Locate</button>
             </div>
             <button id="zpBt" class="i18n ui-btn ui-icon-navigation ui-corner-all ui-mini " title="Where am I ?">Where am I ?</button>
             <span id="locateMsg"></span>
           </form>
+          <!-- GRK - Add paramForm -->
+          <form id="paramForm" action="#" method="get">
+              <h4 class="i18n">Parameters</h4>
+              <div id="paramModel">
+                <label for="paramInput"></label>
+                <input class="ui-mini" name="paramInput" id="paramInput" value="" type="text" title="InputParam" />
+                <!-- <div data-role="controlgroup" data-type="horizontal" class="ui-mini">
+                  <input type="text"
+                      name="paramInput"
+                      id="paramInput"
+                      data-wrapper-class="controlgroup-textinput ui-btn ui-mini"
+                      value=""
+                      title="Param" />
+                  <button class="i18n ui-btn ui-icon-search ui-btn-icon-notext " title="Search">Param</button>
+                </div> -->
+              </div>
+              <button type="submit" id="paramButton" class="ui-shadow ui-btn ui-mini ui-corner-all i18n" title="Apply">Apply</button>
+          </form>
+          <!-- GRK - paramForm END -->
           <div>
               <ul data-role="listview" data-inset="true" id="searchResults"></ul>
           </div>

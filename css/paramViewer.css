@@ -1,0 +1,15 @@
+.ui-content h4 {
+    margin: 0 0 5px 0;
+}
+
+#paramForm {
+    display: none;
+    margin: 20px 0 0 0;
+}
+#paramModel {
+    display: none;
+}
+#paramButton {
+    margin-top: 20px;
+}
+

@@ -7,7 +7,8 @@ $.extend(hardConfig, {
 
             'Query': 'Interroger',
             'Legend': 'Légende',
-            'Locate': 'Rechercher',
+            'Search': 'Rechercher',
+            'Locate': 'Localisation',
             'Map': 'Carte',
             'initial view': 'vue initiale',
             'zoom +': 'zoom +',
@@ -39,7 +40,10 @@ $.extend(hardConfig, {
             'Address and/or city': 'Adresse et/ou commune',
             'Features or Address and/or city': 'Entités ou Adresse et/ou commune',
             'share on ' : 'partager sur ',
-            'Edit with geOrchestra': 'éditer carte avec geOrchestra'
+            'Edit with geOrchestra': 'éditer carte avec geOrchestra',
+            
+            'Parameters': 'Paramètres',
+            'Apply': 'Appliquer'
         },
         es: {
             'geOrchestra mobile': 'geOrchestra móvil',

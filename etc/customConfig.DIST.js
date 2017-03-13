@@ -13,6 +13,11 @@ customConfig = {
     geOrchestraBaseUrl: 'https://sdi.georchestra.org/',
 
     /**
+     * projection
+     */
+    projcode: 'EPSG:3857',
+
+    /**
      * map bounds
      */
     initialExtent: [-12880000,-1080000,5890000,7540000],
@@ -79,5 +84,7 @@ customConfig = {
         'Twitter' : 'https://twitter.com/intent/tweet?text=',
         'Google+' : 'https://plus.google.com/share?url=',
         'Facebook': 'http://www.facebook.com/sharer/sharer.php?u='
-    }
+    },
+    
+    paramsView: {}
 };

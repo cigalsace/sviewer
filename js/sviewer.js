@@ -7,24 +7,13 @@ proj4.defs([
     ["EPSG:900913", "+title=Web Spherical Mercator, +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs"],
     ["EPSG:2154", "+title=RGF-93/Lambert 93, +proj=lcc +lat_1=49 +lat_2=44 +lat_0=46.5 +lon_0=3 +x_0=700000 +y_0=6600000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"]
 ]);
-// map projection and grids
-var projcode = 'EPSG:3857';
-var projection = ol.proj.get(projcode);
-var projectionExtent = projection.getExtent();
-var size = ol.extent.getWidth(projectionExtent) / 256;
-var resolutions = new Array(20);
-var matrixIds = new Array(20);
-for (var z = 0; z < 20; ++z) {
-    resolutions[z] = size / Math.pow(2, z);
-    matrixIds[z] =projcode + ':' + z;
-}
 
 var config = {};
 var customConfig = {};
 var hardConfig = {
     title: 'geOrchestra mobile',
     geOrchestraBaseUrl: 'https://sdi.georchestra.org/',
-    projection: projection,
+    projcode: 'EPSG:3857',
     initialExtent: [-12880000,-1080000,5890000,7540000],
     maxExtent: [-20037508.34, -20037508.34, 20037508.34, 20037508.34],
     restrictedExtent: [-20037508.34, -20037508.34, 20037508.34, 20037508.34],
@@ -33,22 +22,16 @@ var hardConfig = {
     openLSGeocodeUrl: "http://gpp3-wxs.ign.fr/[CLEF GEOPORTAIL]/geoportail/ols?",
     layersBackground: [
         new ol.layer.Tile({
-            preload: 2,
-            source: new ol.source.MapQuest({layer: 'osm'})
-        }),
-        new ol.layer.Tile({
-            preload: 2,
-            source: new ol.source.MapQuest({layer: 'sat'})
+              source: new ol.source.OSM()
         })
     ],
     socialMedia: {
         'Twitter' : 'https://twitter.com/intent/tweet?text=',
         'Google+' : 'https://plus.google.com/share?url=',
         'Facebook': 'http://www.facebook.com/sharer/sharer.php?u='
-    }
+    },
+    viewParams: {}
 };
-
-
 
 
 var SViewer = function() {
@@ -75,7 +58,8 @@ var SViewer = function() {
             wmsurl_layer: '',
             sldurl: null,
             format: 'image/png',
-            opacity: 1
+            opacity: 1,
+            viewParams: ''
         };
         this.md = {
             title: '',
@@ -91,7 +75,31 @@ var SViewer = function() {
          * @param {String} s the querystring describing the layer
          */
         function parseLayerParam (s) {
-            self.options.nslayername = s.split('*')[0]; // namespace:layername
+            // self.options.nslayername = s.split('*')[0]; // namespace:layername
+
+            // GRK - Add viewParams parameter
+            var nslayername = s.split('*')[0];
+            // Get nslayername & viewParams
+            var regex = /(\w*:?\w+)/gi;
+            self.viewParams = nslayername.match(regex);
+            self.options.nslayername = self.viewParams[0];
+            var params_lst = {}; // To get all params
+            // Check if viewparams arguments exists
+            if (self.viewParams.length > 1) {
+                var vparams_lst = []; // To get params if not empty
+                for (var i=1; i<self.viewParams.length; i++) {
+                    params_lst[self.viewParams[i].split(':')[0]] = self.viewParams[i];
+                    // Check if param value not empty
+                    if (self.viewParams[i].split(':')[1]) {
+                        vparams_lst.push(self.viewParams[i]);
+                    }
+                }
+                // Define viewparams option to pass when call WMS
+                self.options.viewParams = vparams_lst.join(';');
+            }
+            config.viewParams[self.options.nslayername] = params_lst;
+            // GRK - END
+
             self.options.stylename = (s.indexOf("*")>0) ? s.split('*',2)[1]:''; // stylename
             self.options.cql_filter = (s.indexOf("*")>1) ? s.split('*',3)[2]:''; // qcl_filter
 
@@ -122,9 +130,15 @@ var SViewer = function() {
             if (self.options.sldurl) {
                 wms_params.params.SLD = self.options.sldurl;
             }
+            // GRK - Pass viewParams parameter to WMS parameters
+            if (self.options.viewParams) {
+                wms_params.params.VIEWPARAMS = self.options.viewParams;
+            }
+
             self.wmslayer = new ol.layer.Tile({
                 opacity: isNaN(self.options.opacity)?1:self.options.opacity,
-                source: new ol.source.TileWMS(wms_params)
+                source: new ol.source.TileWMS(wms_params),
+                nslayername: self.options.nslayername
             });
         }
 
@@ -382,7 +396,7 @@ var SViewer = function() {
                 var vgb = $(wmc).children('General').children('BoundingBox');
                 var srs = vgb.attr('SRS');
                 var extent = [vgb.attr('minx'), vgb.attr('miny'), vgb.attr('maxx'), vgb.attr('maxy')];
-                view.fit(ol.proj.transformExtent(extent, srs, projcode), map.getSize());
+                view.fit(ol.proj.transformExtent(extent, srs, config.projcode), map.getSize());
             }
 
             // we only consider visible and queryable layers
@@ -547,7 +561,7 @@ var SViewer = function() {
                         var a = res.getElementsByTagNameNS('http://www.opengis.net/gml', 'pos')[0].textContent.split(' '),
                             lonlat = [parseFloat(a[1]), parseFloat(a[0])],
                             matchType = results.find('GeocodeMatchCode').attr('matchType'),
-                            ptResult = ol.proj.transform(lonlat, 'EPSG:4326', projcode),
+                            ptResult = ol.proj.transform(lonlat, 'EPSG:4326', config.projcode),
                             street = $(res).find("Street").text(),
                             municipality = $(res).find('[type="Municipality"]').text();
                         switch (matchType) {
@@ -695,7 +709,7 @@ ol.extent.getTopRight(extent).reverse().join(" "),
             var url = this.wmslayer.getSource().getGetFeatureInfoUrl(
                 config.gficoord,
                 viewResolution,
-                projection,
+                config.projection,
                 {'INFO_FORMAT': 'text/html',
                 'FEATURE_COUNT': config.maxFeatures}
             );
@@ -861,7 +875,7 @@ ol.extent.getTopRight(extent).reverse().join(" "),
                             if (key=="name" && typeof(value==='string')) {
                                 idx+='|' + value.toLowerCase();
                             }
-                        })
+                        });
                         pseudoIndex.push({id:id, data:idx});
                     });
                     config.searchindex = pseudoIndex;
@@ -875,13 +889,13 @@ ol.extent.getTopRight(extent).reverse().join(" "),
                             features.push(config.kmlLayer.getSource().getFeatureById(config.searchindex[i].id));
                             responses +=1;
                         }
-                    })
+                    });
                     featuresToList(features);
                 }
             }
         }
     }
-    
+
     /**
      * method: activateSearchFeatures
      * prepares for feature search;
@@ -909,7 +923,7 @@ ol.extent.getTopRight(extent).reverse().join(" "),
                             config.searchparams.typename = $(response).find("Query").attr("typeName");
                             $.ajax({
                                 url: ajaxURL(
-                                        $(response).find("LayerDescription").attr("wfs") + 
+                                        $(response).find("LayerDescription").attr("wfs") +
                                         $.param({
                                             'SERVICE': 'WFS',
                                             'VERSION': '1.0.0',
@@ -965,7 +979,7 @@ ol.extent.getTopRight(extent).reverse().join(" "),
         $('#marker').show();
     }
 
-    
+
     /**
      * method: featuresToList
      * renders a clickable list of features
@@ -1109,10 +1123,10 @@ ol.extent.getTopRight(extent).reverse().join(" "),
         view.fit(config.initialExtent, map.getSize());
         view.setRotation(0);
     }
-    
+
     // recenter on device position
     function showPosition(pos) {
-        var p = ol.proj.transform([pos.coords.longitude, pos.coords.latitude], 'EPSG:4326', projcode),
+        var p = ol.proj.transform([pos.coords.longitude, pos.coords.latitude], 'EPSG:4326', config.projcode),
             start = +new Date(),
             pan = ol.animation.pan({
                 duration: 1000,
@@ -1130,13 +1144,13 @@ ol.extent.getTopRight(extent).reverse().join(" "),
         view.setCenter(p);
         if (view.getZoom()<17) view.setZoom(18) ;
     }
-    
+
     // get device position
     function locateMe() {
         if (navigator.geolocation) {
             messagePopup(tr("estimating device position ..."));
             navigator.geolocation.getCurrentPosition(
-                showPosition, 
+                showPosition,
                 function(e) {
                     messagePopup(tr("device position error"));
                 },
@@ -1197,7 +1211,7 @@ ol.extent.getTopRight(extent).reverse().join(" "),
                 doGUI();
             });
     }
-    
+
     /**
      * reads configuration from querystring
      */
@@ -1216,6 +1230,8 @@ ol.extent.getTopRight(extent).reverse().join(" "),
         };
         $.extend(config, hardConfig);
         $.extend(config, customConfig);
+
+        config.projection = ol.proj.get(config.projcode);
 
         // querystring param: lb (selected background)
         if (qs.lb) {
@@ -1237,12 +1253,12 @@ ol.extent.getTopRight(extent).reverse().join(" "),
                 config.layersQueryable.push(new LayerQueryable(this));
             });
         }
-        
+
         // querystring param: qcl_filters
         if (qs.qcl_filters) {
             var qcl_filters_list = [];
             qcl_filters_list = (typeof qs.qcl_filters === 'string') ? qs.qcl_filters.split(';') : qs.qcl_filters;
-    
+
             $.each(qcl_filters_list, function(index) {
                 if (index < config.layersQueryable.length) {
                     var opt = config.layersQueryable[index].options;
@@ -1259,7 +1275,7 @@ ol.extent.getTopRight(extent).reverse().join(" "),
             var p = [parseFloat(qs.x), parseFloat(qs.y)];
             // is this lonlat ? anyway don't use sviewer for the vendee globe
             if (Math.abs(p[0])<=180&&Math.abs(p[1])<=180&&config.z>7) {
-                p = ol.proj.transform(p, 'EPSG:4326', projcode);
+                p = ol.proj.transform(p, 'EPSG:4326', config.projcode);
             }
             config.x = p[0];
             config.y = p[1];
@@ -1298,7 +1314,11 @@ ol.extent.getTopRight(extent).reverse().join(" "),
      */
     function doMap() {
         // map creation
-        view = new ol.View();
+        view = new ol.View({
+            projection: config.projection
+        });
+        // console.log(config.projection);
+        // console.log(config.projcode);
         map = new ol.Map({
             controls: [
                 new ol.control.ScaleLine(),
@@ -1420,7 +1440,6 @@ ol.extent.getTopRight(extent).reverse().join(" "),
         if (config.lang !== 'en') {
             translateDOM('.i18n', ['title', 'placeholder', 'value']);
         }
-        
 
         // resize map
         $(window).bind("orientationchange resize pageshow", fixContentHeight);
@@ -1433,15 +1452,70 @@ ol.extent.getTopRight(extent).reverse().join(" "),
                 300
             );
         }
+
+        // GRK - Add viewParams buttons
+        var i = 1;
+        for (var nslayername in config.viewParams) {
+            var params = config.viewParams[nslayername];
+            for (var param in params) {
+                addParamInput(i.toString(), nslayername, params[param]);
+                i++;
+            }
+        }
+        // GRK - viewParams filter button
+        $('button#paramButton').on('click', runParamFilter);
+        $('form#paramForm').on('submit', runParamFilter);
     }
+    
+    // GRK - Function to add viewParams input and button in GUI
+    function addParamInput(index, nslayername, param) {
+        // Clone model input and button
+        var clone = $('form#paramForm div#paramModel').clone();
+        clone.attr('id', 'param_' + index);  // Add id attribute
+        clone.find('label').append(nslayername + ' / ' + param.split(':')[0].toUpperCase());  // Change label
+        clone.find('input').attr('id', 'paramInput_' + index).attr('data-layer', nslayername).val(param.split(':')[1]);  // Change button attrinute
+        clone.insertBefore("form#paramForm #paramButton");  // Add to GUI
+        $('form#paramForm').show();  // Show paramForm
+    }
+        
+    function runParamFilter(event) {
+            event.stopPropagation();
+            var i = 1;
+            // Update all layers and parameters
+            for (var nslayername in config.viewParams) {
+                var viewParams = [];
+                params = $.extend(true, {}, config.viewParams[nslayername]);
+                for (var p in config.viewParams[nslayername]) {
+                    var v = $('input#paramInput_' + i).val();
+                    var pv = [p, v].join(':');
+                    config.viewParams[nslayername][p] = pv;
+                    delete params[p];
+                    if (v !== '') {
+                        viewParams.push(pv);
+                    }
+                    // Update config.layersQueryString for permalink generation
+                    var replace = '(.*' + nslayername + '\\[[^,\\*]\*;?' + p + ':)[^,\\*;]*(;?[^,*]*\\].*)';
+                    var re = new RegExp(replace, "g");
+                    // config.layersQueryString = config.layersQueryString.replace(/([^,\*]*layer1\[[^,\*]*;?pop_max:)[^,\*;]*(;?[^,*]*\].*)/gi, '$1'+v+'$2');
+                    config.layersQueryString = config.layersQueryString.replace(re, '$1' + v + '$2');
+                    i++;
+                }
+                // Update VIEWPARAMS and relaod layer
+                for (var l=0; l<map.getLayers().getArray().length; l++) {
+                    if (map.getLayers().item(l).get('nslayername') == nslayername) {
+                        map.getLayers().item(l).getSource().updateParams({'VIEWPARAMS': viewParams.join(';')});
+                    }
+                }
+            }
+            return false;
+        }
+        
 
 
     // ------ Main ------------------------------------------------------------------------------------------
 
     init();
-    
 
 };
-
 
 $(document).ready(SViewer);
