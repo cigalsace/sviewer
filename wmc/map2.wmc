@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewContext xmlns="http://www.opengis.net/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1.0" id="6a28909c69a59" xsi:schemaLocation="http://www.opengis.net/context http://schemas.opengis.net/context/1.1.0/context.xsd">
+  <General>
+    <Window width="1613" height="693" />
+    <BoundingBox minx="696340.408880789997" miny="6173480.51680759992" maxx="942926.262128770002" maxy="6279422.23801080044" SRS="EPSG:3857" />
+    <Title>Map2</Title>
+    <KeywordList>
+      <Keyword>map</Keyword>
+    </KeywordList>
+    <Abstract>Map 2</Abstract>
+    <Extension>
+      <ol:maxExtent xmlns:ol="http://openlayers.org/context" minx="-20037508.3399999999" miny="-20037508.3399999999" maxx="20037508.3399999999" maxy="20037508.3399999999" />
+    </Extension>
+  </General>
+  <LayerList>
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.1.1">
+        <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://www.cigalsace.org/geoserver/cigal/wms?SERVICE=WMS&amp;" />
+      </Server>
+      <Name>CIGAL_LignesFrontieres_250000_UTM32</Name>
+      <Title>CIGAL limites</Title>
+      <sld:MinScaleDenominator xmlns:sld="http://www.opengis.net/sld">266.5911979812228</sld:MinScaleDenominator>
+      <sld:MaxScaleDenominator xmlns:sld="http://www.opengis.net/sld">8735660.375448719</sld:MaxScaleDenominator>
+      <FormatList>
+        <Format current="1">image/png</Format>
+        <Format>application/atom xml</Format>
+        <Format>application/atom+xml</Format>
+        <Format>application/openlayers</Format>
+        <Format>application/pdf</Format>
+        <Format>application/rss xml</Format>
+        <Format>application/rss+xml</Format>
+        <Format>application/vnd.google-earth.kml</Format>
+        <Format>application/vnd.google-earth.kml xml</Format>
+        <Format>application/vnd.google-earth.kml+xml</Format>
+        <Format>application/vnd.google-earth.kml+xml;mode=networklink</Format>
+        <Format>application/vnd.google-earth.kmz</Format>
+        <Format>application/vnd.google-earth.kmz xml</Format>
+        <Format>application/vnd.google-earth.kmz+xml</Format>
+        <Format>application/vnd.google-earth.kmz;mode=networklink</Format>
+        <Format>atom</Format>
+        <Format>image/geotiff</Format>
+        <Format>image/geotiff8</Format>
+        <Format>image/gif</Format>
+        <Format>image/gif;subtype=animated</Format>
+        <Format>image/jpeg</Format>
+        <Format>image/png8</Format>
+        <Format>image/png; mode=8bit</Format>
+        <Format>image/svg</Format>
+        <Format>image/svg xml</Format>
+        <Format>image/svg+xml</Format>
+        <Format>image/tiff</Format>
+        <Format>image/tiff8</Format>
+        <Format>kml</Format>
+        <Format>kmz</Format>
+        <Format>openlayers</Format>
+        <Format>rss</Format>
+      </FormatList>
+      <StyleList>
+        <Style>
+          <Name>Line frontières</Name>
+          <Title>Default Line</Title>
+          <Abstract>A sample style that draws a line</Abstract>
+          <LegendURL width="20" height="20" format="image/png">
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://www.cigalsace.org/geoserver/cigal/wms?request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=CIGAL_LignesFrontieres_250000_UTM32" />
+          </LegendURL>
+        </Style>
+      </StyleList>
+      <Extension>
+        <ol:maxExtent xmlns:ol="http://openlayers.org/context" minx="-1358814.23148260009" miny="4965404.62359219976" maxx="1324031.72455650009" maxy="6774389.59493120015" />
+        <ol:tileSize xmlns:ol="http://openlayers.org/context" width="512" height="512" />
+        <ol:transparent xmlns:ol="http://openlayers.org/context">true</ol:transparent>
+        <ol:numZoomLevels xmlns:ol="http://openlayers.org/context">22</ol:numZoomLevels>
+        <ol:units xmlns:ol="http://openlayers.org/context">m</ol:units>
+        <ol:isBaseLayer xmlns:ol="http://openlayers.org/context">false</ol:isBaseLayer>
+        <ol:displayInLayerSwitcher xmlns:ol="http://openlayers.org/context">true</ol:displayInLayerSwitcher>
+        <ol:singleTile xmlns:ol="http://openlayers.org/context">false</ol:singleTile>
+        <ol:transitionEffect xmlns:ol="http://openlayers.org/context">map-resize</ol:transitionEffect>
+      </Extension>
+    </Layer>
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.3.0">
+        <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://www.cigalsace.org/geoserver/GRANDEST/ows?SERVICE=WMS&amp;" />
+      </Server>
+      <Name>commune_actuelle</Name>
+      <Title>commune_actuelle</Title>
+      <sld:MinScaleDenominator xmlns:sld="http://www.opengis.net/sld">266.5911979812228</sld:MinScaleDenominator>
+      <sld:MaxScaleDenominator xmlns:sld="http://www.opengis.net/sld">559082264.0287180</sld:MaxScaleDenominator>
+      <FormatList>
+        <Format current="1">image/png</Format>
+        <Format>application/atom+xml</Format>
+        <Format>application/pdf</Format>
+        <Format>application/rss+xml</Format>
+        <Format>application/vnd.google-earth.kml+xml</Format>
+        <Format>application/vnd.google-earth.kml+xml;mode=networklink</Format>
+        <Format>application/vnd.google-earth.kmz</Format>
+        <Format>image/geotiff</Format>
+        <Format>image/geotiff8</Format>
+        <Format>image/gif</Format>
+        <Format>image/jpeg</Format>
+        <Format>image/png; mode=8bit</Format>
+        <Format>image/svg+xml</Format>
+        <Format>image/tiff</Format>
+        <Format>image/tiff8</Format>
+        <Format>text/html; subtype=openlayers</Format>
+      </FormatList>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <Title>Default</Title>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://www.cigalsace.org/mapfishapp/ws/sld/geodoce807e05a16cfe0ac20267d52c27985f2.sld" />
+          </SLD>
+        </Style>
+        <Style>
+          <Name>generic</Name>
+          <Title>Generic</Title>
+          <Abstract>Generic style</Abstract>
+          <LegendURL width="20" height="20" format="image/png">
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://www.cigalsace.org/geoserver/GRANDEST/ows?service=WMS&amp;request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=commune_actuelle" />
+          </LegendURL>
+        </Style>
+      </StyleList>
+      <Extension>
+        <ol:maxExtent xmlns:ol="http://openlayers.org/context" minx="-20037508.3399999999" miny="-20037508.3399999999" maxx="20037508.3399999999" maxy="20037508.3399999999" />
+        <ol:tileSize xmlns:ol="http://openlayers.org/context" width="512" height="512" />
+        <ol:transparent xmlns:ol="http://openlayers.org/context">true</ol:transparent>
+        <ol:numZoomLevels xmlns:ol="http://openlayers.org/context">22</ol:numZoomLevels>
+        <ol:units xmlns:ol="http://openlayers.org/context">m</ol:units>
+        <ol:isBaseLayer xmlns:ol="http://openlayers.org/context">false</ol:isBaseLayer>
+        <ol:displayInLayerSwitcher xmlns:ol="http://openlayers.org/context">true</ol:displayInLayerSwitcher>
+        <ol:singleTile xmlns:ol="http://openlayers.org/context">false</ol:singleTile>
+        <ol:transitionEffect xmlns:ol="http://openlayers.org/context">map-resize</ol:transitionEffect>
+        <ol:gutter xmlns:ol="http://openlayers.org/context">10</ol:gutter>
+      </Extension>
+    </Layer>
+  </LayerList>
+</ViewContext>
+
+
