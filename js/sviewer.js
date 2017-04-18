@@ -1434,7 +1434,7 @@ ol.extent.getTopRight(extent).reverse().join(" "),
             $("#stm-btn-next").hide();
             $("#stm-title").html(stm[index].title);
             $.ajax({
-                url: ajaxURL(stm[index].content_url),
+                url: ajaxURL(stm[index].html_url),
                 type: 'GET',
                 success: function(response) {
                     console.log(response);

@@ -13,15 +13,17 @@ stm: [
     {
         title: 'First map',
         wmc_url: 'wmc/map1.wmc',
-        content_url: 'wmc/map1.html'
+        html_url: 'wmc/map1.html'
     }, {
         title: 'Second map',
         wmc_url: 'wmc/map2.wmc',
-        content_url: 'wmc/map2.html'
-        // content_url: '14cc2d9249fba1e87068adc1e9528ffe'
+        // wmc_url: '14cc2d9249fba1e87068adc1e9528ffe', // Possibilité de spécifier un WMC à partir de son identifiant geOrchestra
+        html_url: 'wmc/map2.html'
     }
 ]
 ```
 
-Si la variable stm est définie, un bouton supplémentaire s'affiche dans le sViewer.
+Si la variable stm est définie, un bouton supplémentaire s'affiche dans le sViewer en haut à droite.
 Il permet de charger la première carte. Des boutons de navigation sous le commentaire de la carte permet de passer à la carte suivante ou revenir en arrière.
+
+Pour une démonstration: cf. https://www.cigalsace.org/tools/stmViewer/

@@ -97,8 +97,8 @@ customConfig = {
             html: 'wmc/map1.html'
         }, {
             title: 'Second map',
-            wmc: 'wmc/map1.wmc',
-            html: 'wmc/map1.html'
+            wmc: 'wmc/map2.wmc',
+            html: 'wmc/map2.html'
         }
     ]
     */
